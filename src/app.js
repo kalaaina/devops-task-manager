@@ -3,11 +3,14 @@ const app = express();
 app.use(express.json());
 
 let tasks = [
-  { id: 1, title: "Initial task", completed: false }
+  { id: 1, title: "Initial task", completed: true },
+  { id: 2, title: "Install Git and Node.js", "completed": true },
+  { id: 2, title: "Learn DevOps basics", completed: false }
+  
 ];
 
 app.get('/', (req, res) => {
-  res.json({ message: "Task Manager API running..." });
+  res.json({ message: "DevOps Task Manager API is running..." });
 });
 
 app.get('/tasks', (req, res) => {
