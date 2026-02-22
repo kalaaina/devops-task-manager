@@ -8,7 +8,7 @@ const tasksRouter = require('./routes/tasks');
 app.use('/tasks', tasksRouter);
 
 app.get('/', (req, res) => {
-    res.json({ message: "Task Manager API running (Lab2)" });
+    res.json({ message: "Welcome from FEATURE branch" });
 });
 
 app.listen(3000, () => console.log("API running on port 3000"));
