@@ -1,21 +1,21 @@
 const express = require('express');
 const app = express();
+
 app.use(express.json());
 
 const tasksRouter = require('./routes/tasks');
-
-// Add this line to mount the tasks router at /tasks
 app.use('/tasks', tasksRouter);
 
+// Only ONE response for "/"
 app.get('/', (req, res) => {
-<<<<<<< HEAD
-  res.json({ message: "Welcome from MAIN branch" });
-=======
-    res.json({ message: "Task Manager API running (Lab2)" });
->>>>>>> feature/routes-refactor
+  res.json({ message: "Task Manager API running (Lab2)" });
 });
 
-app.listen(3000, () => console.log("API running on port 3000"));
+// Only start the server if this file is run directly
+if (require.main === module) {
+  app.listen(3000, () => console.log("API running on port 3000"));
+}
 
-//CI test change
-console.log("Testing CI with a Pull Request");
+// Export the app for testing
+module.exports = app;
+
