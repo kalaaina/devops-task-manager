@@ -41,5 +41,5 @@ jobs:
           context: .
           push: true
           tags: |
-            ghcr.io/kanass20/task-manager-api:latest
-            ghcr.io/kanass20/task-manager-api:prod
+            ghcr.io/kalaaiana/task-manager-api:latest
+            ghcr.io/kalaaina/task-manager-api:prod
