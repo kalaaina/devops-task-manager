@@ -25,4 +25,4 @@ jobs:
         run: npm test
 
       - name: Build Docker image
-      - run: docker build -t -task-manager-api
+        run: docker build -t -task-manager-api
