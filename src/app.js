@@ -1,17 +1,20 @@
 const express = require('express');
-const app = express();
+const mongoose = require('mongoose'); // <--- MAKE SURE THIS LINE IS HERE
 
+const app = express();
 app.use(express.json());
 
-const tasksRouter = require('./routes/tasks');
-app.use('/tasks', tasksRouter);
-
-// Add a fallback string so it doesn't crash when MONGO_URL is missing (like in CI)
+// Then your connection logic...
 const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/tasksdb';
 
 mongoose.connect(mongoUri)
   .then(() => console.log("Connected to MongoDB"))
   .catch(err => console.log("MongoDB connection error: ", err));
+
+
+const tasksRouter = require('./routes/tasks');
+app.use('/tasks', tasksRouter);
+
 
 // Only ONE response for "/"
 app.get('/', (req, res) => {
