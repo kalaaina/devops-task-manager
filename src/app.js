@@ -6,6 +6,12 @@ app.use(express.json());
 const tasksRouter = require('./routes/tasks');
 app.use('/tasks', tasksRouter);
 
+const mongoose = require("mongoose");
+
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => console.log(err));
+
 // Only ONE response for "/"
 app.get('/', (req, res) => {
   res.json({ message: "Task Manager API running (Lab2)" });
