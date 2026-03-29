@@ -6,11 +6,12 @@ app.use(express.json());
 const tasksRouter = require('./routes/tasks');
 app.use('/tasks', tasksRouter);
 
-const mongoose = require("mongoose");
+// Add a fallback string so it doesn't crash when MONGO_URL is missing (like in CI)
+const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/tasksdb';
 
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
+mongoose.connect(mongoUri)
+  .then(() => console.log("Connected to MongoDB"))
+  .catch(err => console.log("MongoDB connection error: ", err));
 
 // Only ONE response for "/"
 app.get('/', (req, res) => {
