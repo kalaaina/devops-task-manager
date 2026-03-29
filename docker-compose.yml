@@ -1,0 +1,23 @@
+services:
+  # API service (Task Manager)
+  api:
+    image: ghcr.io/kanass20/task-manager-api:prod  # Image built & delivered in Lab 4
+    ports:
+      - "3000:3000"  # Expose API on localhost:3000
+    depends_on:
+      - db  # Start database container before API
+    environment:
+      # MongoDB connection string
+      # 'db' is the service name and acts as the hostname
+      - MONGO_URL=mongodb://db:27017/tasksdb
+
+  # Database service (MongoDB)
+  db:
+    image: mongo:6  # Official MongoDB image
+    volumes:
+      # Persist database data across container restarts
+      - mongo_data:/data/db
+
+# Named volumes definition
+volumes:
+  mongo_data:  # Docker-managed persistent storage
