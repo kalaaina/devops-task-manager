@@ -1,31 +1,43 @@
 const express = require('express');
-const mongoose = require('mongoose'); // <--- MAKE SURE THIS LINE IS HERE
+const mongoose = require('mongoose');
 
 const app = express();
 app.use(express.json());
 
-// Then your connection logic...
-const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/tasksdb';
+/**
+ * DATABASE CONNECTION
+ * Logic: Only connect if we are NOT in a test environment.
+ * This prevents the 'ECONNREFUSED' error in GitHub Actions.
+ */
+if (process.env.NODE_ENV !== 'test') {
+    const mongoUri = process.env.MONGO_URL || 'mongodb://localhost:27017/tasksdb';
 
-mongoose.connect(mongoUri)
-  .then(() => console.log("Connected to MongoDB"))
-  .catch(err => console.log("MongoDB connection error: ", err));
+    mongoose.connect(mongoUri)
+        .then(() => console.log("Connected to MongoDB successfully"))
+        .catch(err => console.log("MongoDB connection error: ", err));
+}
 
-
+// Routes
 const tasksRouter = require('./routes/tasks');
 app.use('/tasks', tasksRouter);
 
-
-// Only ONE response for "/"
+// Base Health Check Route
 app.get('/', (req, res) => {
-  res.json({ message: "Task Manager API running (Lab2)" });
+    res.json({ message: "Task Manager API running (Lab 5 - Orchestration)" });
 });
 
-// Only start the server if this file is run directly
+/**
+ * SERVER INITIALIZATION
+ * Only start the server if this file is run directly (node app.js).
+ * Jest (testing) will import the 'app' object without starting the listener.
+ */
 if (require.main === module) {
-  app.listen(3000, () => console.log("API running on port 3000"));
+    const PORT = 3000;
+    app.listen(PORT, () => {
+        console.log(`API running on port ${PORT}`);
+    });
 }
 
-// Export the app for testing
+// Export for the test suite
 module.exports = app;
 
